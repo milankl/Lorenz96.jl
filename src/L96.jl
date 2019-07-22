@@ -4,8 +4,8 @@ function L96(::Type{T}=Float64;
             X::Array{Float64,1}=zeros(36),
             F::Float64=8.0,
             s::Float64=1.0,
-            Δt::Float64=0.002,
             η::Float64=0.01,
+            Δt::Float64=0.01,
             scheme::String="RK4") where {T<:AbstractFloat}
 
             # if both n and X are specified then they should match!
@@ -15,7 +15,7 @@ function L96(::Type{T}=Float64;
 
             # add the forcing for equilibrium initial conditions
             if X == zeros(36)   # the default
-                X = zeros(n) .+ F         
+                X = zeros(n) .+ F
                 X[1] += η # add small perturbation on the first variable
             end
 
@@ -25,3 +25,5 @@ function L96(::Type{T}=Float64;
                 throw(error("Other schemes than RK4 not implemented yet."))
             end
 end
+
+X₁
