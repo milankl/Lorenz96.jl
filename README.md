@@ -19,7 +19,7 @@ X = L96(Posit32)
 Change parameters by specifying optional arguments
 
 ```julia
-X = L96(Float32,N=100_000,n=36,X=zeros(36),F=8.0,s=1.0,Δt=0.002,η=0.01,scheme="RK4")
+X = L96(Float32,N=100_000,n=36,X=zeros(36),F=8.0,s=1.0,η=0.01,Δt=0.01,scheme="RK4")
 ```
 with `N` the number of time steps, `X` the initial conditions, `F` the forcing constant, `s` a scaling factor of the equations (that will be undone for storage), `Δt` the time step, and `scheme` the time integration scheme.
 
