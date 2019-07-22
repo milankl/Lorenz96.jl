@@ -33,5 +33,5 @@ dX_i/dt = (X_i+1 - X_i-2)*X_i-1*s_inv - X_i + F
 
 In the package manager do
 ```julia
-add https://github.com/milankl/Lorenz63.jl
+add https://github.com/milankl/Lorenz96.jl
 ```
