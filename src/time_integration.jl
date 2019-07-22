@@ -3,14 +3,14 @@ function RK4(T::Type,N::Int,X::Array{Float64,1},F::Float64,s::Float64,Δt::Float
     # number of variables
     n = length(X)
 
+    # preallocate for storing results - store without scaling in Float64
+    Xout = Array{Float64,2}(undef,n,N+1)
+    Xout[:,1] = X
+
     # scale the initial conditions
     for i = 1:n
         X[i] = s*X[i]
     end
-
-    # preallocate for storing results - store without scaling in Float64
-    Xout = Array{Float64,2}(undef,n,N+1)
-    Xout[:,1] = X/s
 
     # Runge Kutta 4th order coefficients including time step and sigma for x
     RKα = [1/6.,1/3.,1/3.,1/6.]*Δt
