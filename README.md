@@ -5,19 +5,16 @@
 Lorenz96.jl simulates the [Lorenz 96 system](https://en.wikipedia.org/wiki/Lorenz_96_model) with one level (two and three level version planned) for any given number type, as long as conversions (to and from Float64) and arithmetics (+,-,*) are defined - the scaled equations are written division-free. Output always in Float64.
 
 # Usage
-
 ```julia
 using Lorenz96
 X = L96()
 ```
 simulates the Lorenz system with `Float64` and standard parameters. Providing the type (which has to be a subtype of `AbstractFloat`), returns the simulation calculated in that type (though output in `Float64`)
-
 ```julia
 using SoftPosit
 X = L96(Posit32)
 ```
 Change parameters by specifying optional arguments
-
 ```julia
 X = L96(Float32,N=100_000,n=36,X=zeros(36),F=8.0,s=1.0,η=0.01,Δt=0.01,scheme="RK4")
 ```
@@ -26,10 +23,8 @@ with `N` the number of time steps, `X` the initial conditions, `F` the forcing c
 # Equations
 
 The Lorenz system is scaled with `s` and therefore the prognostic variables are actually  `sX -> X`. The RHS then reads with `s_inv = 1/s`
-
 ```
 dX_i/dt = (X_i+1 - X_i-2)*X_i-1*s_inv - X_i + F
-
 ```
 `RKx, RKy, RKz` include the Runge Kutta coefficients of the explicit time scheme (Runge Kutta 4th order by default), the time step `Δt` and for `x` also the parameter `σ` and are precomputed to avoid intermediate calculations.
 
@@ -37,7 +32,6 @@ dX_i/dt = (X_i+1 - X_i-2)*X_i-1*s_inv - X_i + F
 # Installation
 
 In the package manager do
-
 ```julia
 add https://github.com/milankl/Lorenz63.jl
 ```
