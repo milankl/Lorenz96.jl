@@ -25,5 +25,3 @@ function L96(::Type{T}=Float64;
                 throw(error("Other schemes than RK4 not implemented yet."))
             end
 end
-
-X₁
