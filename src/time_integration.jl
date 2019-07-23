@@ -29,7 +29,7 @@ function RK4(T::Type,N::Int,X::Array{Float64,1},F::Float64,s::Float64,Δt::Float
     dX = zero(X)       # tendencies
 
     for i = 1:N
-        for j in 1:n
+        @simd for j in 1:n
             @inbounds X1[j] = X[j]
         end
 
@@ -37,18 +37,18 @@ function RK4(T::Type,N::Int,X::Array{Float64,1},F::Float64,s::Float64,Δt::Float
             rhs!(dX,X1,F,s_inv)
 
             if rki < 4
-                for j in 1:n
+                @simd for j in 1:n
                     @inbounds X1[j] = X[j] + dX[j] * RKβ[rki]
                 end
             end
 
             # sum the RK steps on the go
-            for j in 1:n
+            @simd for j in 1:n
                 @inbounds X0[j] += dX[j] * RKα[rki]
             end
         end
 
-        for j in 1:n
+        @simd for j in 1:n
             @inbounds X[j] = X0[j]
         end
 
