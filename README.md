@@ -1,4 +1,4 @@
-# Lorenz96.jl - A type-stable Lorenz 1996 model
+# Lorenz96.jl - A type-flexible Lorenz 1996 model
 
 ![attractor](figs/hovmoeller.png?raw=true "L96 Hovmoeller diagram")
 
