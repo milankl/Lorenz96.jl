@@ -18,7 +18,7 @@ Change parameters by specifying optional arguments
 ```julia
 X = L96(Float32,N=100_000,n=36,X=zeros(36),F=8.0,s=1.0,η=0.01,Δt=0.01,scheme="RK4")
 ```
-with `N` the number of time steps, `X` the initial conditions, `F` the forcing constant, `s` a scaling factor of the equations (that will be undone for storage), `η` the perturbation that is added on `X₁` for the default `X`, `Δt` the time step, and `scheme` the time integration scheme.
+with `N` the number of time steps, `n` number of variables, `X` the initial conditions, `F` the forcing constant, `s` a scaling factor of the equations (that will be undone for storage), `η` the perturbation that is added on `X₁` for the default `X`, `Δt` the time step, and `scheme` the time integration scheme.
 
 # Equations
 
