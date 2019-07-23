@@ -1,6 +1,6 @@
 # Lorenz96.jl - A type-stable Lorenz 1996 model
 
-![attractor](figs/attractor.png?raw=true "L63 attractor")
+![attractor](figs/hovmoeller.png?raw=true "L96 Hovmoeller diagram")
 
 Lorenz96.jl simulates the [Lorenz 96 system](https://en.wikipedia.org/wiki/Lorenz_96_model) with one level (two and three level version planned) for any given number type, as long as conversions (to and from Float64) and arithmetics (+,-,*) are defined - the scaled equations are written division-free. Output always in Float64.
 
