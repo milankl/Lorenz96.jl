@@ -26,8 +26,6 @@ The Lorenz system is scaled with `s` and therefore the prognostic variables are 
 ```
 dX_i/dt = (X_i+1 - X_i-2)*X_i-1*s_inv - X_i + F
 ```
-`RKx, RKy, RKz` include the Runge Kutta coefficients of the explicit time scheme (Runge Kutta 4th order by default), the time step `Δt` and for `x` also the parameter `σ` and are precomputed to avoid intermediate calculations.
-
 
 # Installation
 
