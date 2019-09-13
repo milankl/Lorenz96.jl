@@ -1,3 +1,4 @@
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Build Status](https://travis-ci.com/milankl/Lorenz96.jl.svg?branch=master)](https://travis-ci.com/milankl/Lorenz96.jl)
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/milankl/Lorenz96.jl?svg=true)](https://ci.appveyor.com/project/milankl/Lorenz96-jl)
 [![Build Status](https://api.cirrus-ci.com/github/milankl/Lorenz96.jl.svg)](https://cirrus-ci.com/github/milankl/Lorenz96.jl)
