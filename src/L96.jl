@@ -13,6 +13,12 @@ Integrates the Lorenz1996 model. Standard parameters
     η::Float64=0.01,                    # strength of initial perturbation at X[1] if no X provided
     Δt::Float64=0.01,                   # time step
     scheme::String="RK4"                # time integration scheme
+
+# Examples
+```jldoc
+julia> X1 = L96(Float64,n=8,N=1000);
+julia> X2 = L96(Float32,n=6,Δt=0.005);
+```
 """
 function L96(::Type{T}=Float64;                 # number format
             N::Int=10_000,                      # number of time steps
