@@ -1,12 +1,35 @@
-function L96(::Type{T}=Float64;
-            N::Int=10_000,
-            n::Int=36,
-            X::Array{Float64,1}=zeros(36),
-            F::Float64=8.0,
-            s::Float64=1.0,
-            η::Float64=0.01,
-            Δt::Float64=0.01,
-            scheme::String="RK4") where {T<:AbstractFloat}
+"""
+
+    X = L96(Float32)
+
+Integrates the Lorenz1996 model. Standard parameters
+
+    L96(::Type{T}=Float64;              # number format
+    N::Int=10_000,                      # number of time steps
+    n::Int=36,                          # number of variables
+    X::Array{Float64,1}=zeros(36),      # initial conditions
+    F::Float64=8.0,                     # forcing constant
+    s::Float64=1.0,                     # scaling
+    η::Float64=0.01,                    # strength of initial perturbation at X[1] if no X provided
+    Δt::Float64=0.01,                   # time step
+    scheme::String="RK4"                # time integration scheme
+
+# Examples
+```jldoc
+julia> X1 = L96(Float64,n=8,N=1000);
+julia> X2 = L96(Float32,n=6,Δt=0.005);
+```
+"""
+function L96(::Type{T}=Float64;                 # number format
+            N::Int=10_000,                      # number of time steps
+            n::Int=36,                          # number of variables
+            X::Array{Float64,1}=zeros(36),      # initial conditions
+            F::Float64=8.0,                     # forcing constant
+            s::Float64=1.0,                     # scaling
+            η::Float64=0.01,                    # strength of initial perturbation at X[1] if no X provided
+            Δt::Float64=0.01,                   # time step
+            scheme::String="RK4"                # time integration scheme
+            ) where {T<:AbstractFloat}
 
             # if both n and X are specified then they should match!
             if n != 36 && X != zeros(36) && length(X) != n
