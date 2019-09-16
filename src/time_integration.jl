@@ -7,17 +7,12 @@ function RK4(T::Type,N::Int,X::Array{Float64,1},F::Float64,s::Float64,Δt::Float
     Xout = Array{Float64,2}(undef,n,N+1)
     Xout[:,1] = X
 
-    # scale the initial conditions
-    for i = 1:n
-        X[i] = s*X[i]
-    end
-
     # Runge Kutta 4th order coefficients including time step and sigma for x
     RKα = [1/6.,1/3.,1/3.,1/6.]*Δt
     RKβ = [1/2.,1/2.,1.]*Δt
 
-    # convert everything to the desired number system determined by T
-    X = T.(X)
+    # convert everything to the desired number system determined by T and scale
+    X = T.(X*s)
     F = T.(F*s)
     s_inv = T(1.0 / s)
     RKα = T.(RKα)
