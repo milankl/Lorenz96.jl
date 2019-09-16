@@ -1,4 +1,9 @@
-function RK4(T::Type,N::Int,X::Array{Float64,1},F::Float64,s::Float64,Δt::Float64)
+function RK4(::Type{T},
+            N::Int,
+            X::Array{Float64,1},
+            F::Float64,
+            s::Float64,
+            Δt::Float64) where {T<:AbstractFloat}
 
     # number of variables
     n = length(X)
