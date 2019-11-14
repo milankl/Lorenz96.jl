@@ -2,6 +2,8 @@
 [![Build Status](https://travis-ci.com/milankl/Lorenz96.jl.svg?branch=master)](https://travis-ci.com/milankl/Lorenz96.jl)
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/milankl/Lorenz96.jl?svg=true)](https://ci.appveyor.com/project/milankl/Lorenz96-jl)
 [![Build Status](https://api.cirrus-ci.com/github/milankl/Lorenz96.jl.svg)](https://cirrus-ci.com/github/milankl/Lorenz96.jl)
+[![DOI](https://zenodo.org/badge/198242642.svg)](https://zenodo.org/badge/latestdoi/198242642)
+
 # Lorenz96.jl - A type-flexible Lorenz 1996 model
 
 ![attractor](figs/hovmoeller.png?raw=true "L96 Hovmoeller diagram")
