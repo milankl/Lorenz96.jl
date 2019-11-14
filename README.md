@@ -1,7 +1,7 @@
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Build Status](https://travis-ci.com/milankl/Lorenz96.jl.svg?branch=master)](https://travis-ci.com/milankl/Lorenz96.jl)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/milankl/Lorenz96.jl?svg=true)](https://ci.appveyor.com/project/milankl/Lorenz96-jl)
-[![Build Status](https://api.cirrus-ci.com/github/milankl/Lorenz96.jl.svg)](https://cirrus-ci.com/github/milankl/Lorenz96.jl)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://img.shields.io/badge/repo_status-active-brightgreen)](https://www.repostatus.org/#active)
+[![Travis](https://img.shields.io/travis/com/milankl/Lorenz96.jl?label=Linux%20%26%20osx&logo=travis)](https://travis-ci.com/milankl/Lorenz96.jl)
+[![AppVeyor](https://img.shields.io/appveyor/ci/milankl/Lorenz96-jl?label=Windows&logo=appveyor&logoColor=white)](https://ci.appveyor.com/project/milankl/Lorenz96-jl)
+[![Cirrus CI](https://img.shields.io/cirrus/github/milankl/Lorenz96.jl?label=FreeBSD&logo=cirrus-ci&logoColor=white)](https://cirrus-ci.com/github/milankl/Lorenz96.jl)
 [![DOI](https://zenodo.org/badge/198242642.svg)](https://zenodo.org/badge/latestdoi/198242642)
 
 # Lorenz96.jl - A type-flexible Lorenz 1996 model
