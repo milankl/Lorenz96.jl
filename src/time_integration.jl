@@ -1,9 +1,10 @@
-function RK4(::Type{T},
-            N::Int,
-            X::Array{Float64,1},
-            F::Float64,
-            s::Float64,
-            Δt::Float64) where {T<:AbstractFloat}
+function RK4(   ::Type{T},
+                ::Type{Tprog},
+                N::Int,
+                X::Array{Float64,1},
+                F::Float64,
+                s::Float64,
+                Δt::Float64) where {T<:AbstractFloat,Tprog<:AbstractFloat}
 
     # number of variables
     n = length(X)
@@ -17,16 +18,18 @@ function RK4(::Type{T},
     RKβ = [1/2.,1/2.,1.]*Δt
 
     # convert everything to the desired number system determined by T and scale
-    X = T.(X*s)
+    X = Tprog.(X*s)
     F = T.(F*s)
     s_inv = T(1.0 / s)
-    RKα = T.(RKα)
-    RKβ = T.(RKβ)
+    RKα = Tprog.(RKα)
+    RKβ = Tprog.(RKβ)
 
     # preallocate memory for intermediate results
     X0 = deepcopy(X)
     X1 = deepcopy(X)
-    dX = zero(X)       # tendencies
+    X1rhs = zeros(T,size(X1))
+    dXrhs = zeros(T,size(X))       # tendencies
+    dX = zeros(Tprog,size(X))
 
     for i = 1:N
         @simd for j in 1:n
@@ -34,7 +37,9 @@ function RK4(::Type{T},
         end
 
         for rki = 1:4
-            rhs!(dX,X1,F,s_inv)
+            X1rhs = convert(X1rhs,X1)
+            rhs!(dXrhs,X1rhs,F,s_inv)
+            dX = convert(dX,dXrhs)          # change from T to Tprog
 
             if rki < 4
                 @simd for j in 1:n
@@ -57,4 +62,22 @@ function RK4(::Type{T},
     end
 
     return Xout
+end
+
+"""Convert function for two 1-dim arrays, X1, X2, in case their eltypes differ. Convert every element from X1 and store it in X2."""
+function Base.convert(X2::Array{T2,1},X1::Array{T1,1}) where {T1<:AbstractFloat,T2<:AbstractFloat}
+    m = length(X2)
+    @boundscheck m == length(X1) || throw(BoundsError())
+
+    @inbounds for i in 1:m
+            X2[i] = T2(X1[i])
+    end
+
+    return X2
+end
+
+"""Convert function for two 1-dim arrays, X1, X2, in case their eltypes are identical.
+Just pass X1, such that X2 is pointed to the same place in memory."""
+function Base.convert(X2::Array{T,1},X1::Array{T,1}) where {T<:AbstractFloat}
+    return X1
 end
