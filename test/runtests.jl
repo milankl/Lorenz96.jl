@@ -27,3 +27,13 @@ end
     @test Xf32[:,1] == ini
     @test Xf16[:,1] == ini
 end
+
+@testset "Mixed Precision" begin
+    X1 = L96(Float32,Float32,N=10)
+    X2 = L96(Float32,N=10)
+
+    @test X1 == X2
+
+    X1 = L96(Float16,Float32,N=100)
+    @test all(X[:,end-1] .!= X[:,end])  # this should actually be chaotic now
+end

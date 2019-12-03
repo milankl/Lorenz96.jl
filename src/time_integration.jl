@@ -26,10 +26,10 @@ function RK4(   ::Type{T},
 
     # preallocate memory for intermediate results
     X0 = deepcopy(X)
-    X1 = deepcopy(X)
-    X1rhs = zeros(T,size(X1))
-    dXrhs = zeros(T,size(X))       # tendencies
-    dX = zeros(Tprog,size(X))
+    X1 = deepcopy(X)                # prognostic variables of type Tprog
+    X1rhs = zeros(T,size(X1))       # prognostic variables when converted to type T
+    dXrhs = zeros(T,size(X))        # tendencies of type T
+    dX = zeros(Tprog,size(X))       # tendencies when converted to type Tprog
 
     for i = 1:N
         @simd for j in 1:n
@@ -79,5 +79,7 @@ end
 """Convert function for two 1-dim arrays, X1, X2, in case their eltypes are identical.
 Just pass X1, such that X2 is pointed to the same place in memory."""
 function Base.convert(X2::Array{T,1},X1::Array{T,1}) where {T<:AbstractFloat}
+    m = length(X2)
+    @boundscheck m == length(X1) || throw(BoundsError())
     return X1
 end
