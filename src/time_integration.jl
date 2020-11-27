@@ -1,17 +1,18 @@
 function RK4(   ::Type{T},
                 ::Type{Tprog},
                 N::Int,
-                X::Array{Float64,1},
-                F::Float64,
-                s::Float64,
-                Δt::Float64) where {T<:AbstractFloat,Tprog<:AbstractFloat}
+                X::AbstractVector,
+                α::Real,
+                F::Real,
+                s::Real,
+                Δt::Real) where {T<:AbstractFloat,Tprog<:AbstractFloat}
 
     # number of variables
     n = length(X)
 
     # preallocate for storing results - store without scaling in Float64
     Xout = Array{Float64,2}(undef,n,N+1)
-    Xout[:,1] = X
+    Xout[:,1] = Float64.(X)
 
     # Runge Kutta 4th order coefficients including time step and sigma for x
     RKα = [1/6.,1/3.,1/3.,1/6.]*Δt
@@ -19,7 +20,8 @@ function RK4(   ::Type{T},
 
     # convert everything to the desired number system determined by T and scale
     X = Tprog.(X*s)
-    F = T.(F*s)
+    α = T(α)
+    F = T(F*s)
     s_inv = T(1.0 / s)
     RKα = Tprog.(RKα)
     RKβ = Tprog.(RKβ)
@@ -38,7 +40,7 @@ function RK4(   ::Type{T},
 
         for rki = 1:4
             X1rhs = convert(X1rhs,X1)
-            rhs!(dXrhs,X1rhs,F,s_inv)
+            rhs!(dXrhs,X1rhs,α,F,s_inv)
             dX = convert(dX,dXrhs)          # change from T to Tprog
 
             if rki < 4
