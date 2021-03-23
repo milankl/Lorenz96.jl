@@ -24,8 +24,8 @@ end
     Xf16 = L96(Float16,X=ini,N=10,output=true)
 
     @test Xf64[:,1] == ini
-    @test Xf32[:,1] == ini
-    @test Xf16[:,1] == ini
+    @test Xf32[:,1] == Float32.(ini)
+    @test Xf16[:,1] == Float16.(ini)
 end
 
 @testset "Mixed Precision" begin
