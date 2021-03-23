@@ -1,9 +1,6 @@
-[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://img.shields.io/badge/repo_status-active-brightgreen)](https://www.repostatus.org/#active)
-[![Travis](https://img.shields.io/travis/com/milankl/Lorenz96.jl?label=Linux%20%26%20osx&logo=travis)](https://travis-ci.com/milankl/Lorenz96.jl)
-[![AppVeyor](https://img.shields.io/appveyor/ci/milankl/Lorenz96-jl?label=Windows&logo=appveyor&logoColor=white)](https://ci.appveyor.com/project/milankl/Lorenz96-jl)
-[![DOI](https://zenodo.org/badge/198242642.svg)](https://zenodo.org/badge/latestdoi/198242642)
-
 # Lorenz96.jl - A type-flexible Lorenz 1996 model
+[![CI](https://github.com/milankl/Lorenz96.jl/actions/workflows/CI.yml/badge.svg)](https://github.com/milankl/Lorenz96.jl/actions/workflows/CI.yml)
+[![DOI](https://zenodo.org/badge/198242642.svg)](https://zenodo.org/badge/latestdoi/198242642)
 
 ![attractor](figs/hovmoeller.png?raw=true "L96 Hovmoeller diagram")
 
@@ -42,7 +39,8 @@ dX_i/dt = (X_i+1 - X_i-2)*X_i-1*s_inv - α*X_i + F
 
 # Installation
 
-In the package manager do
+Lorenz96.jl is registered so simply do
 ```julia
-add https://github.com/milankl/Lorenz96.jl
+] add Lorenz96
 ```
+where `]` opens the package manager
