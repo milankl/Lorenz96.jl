@@ -5,14 +5,17 @@ function RK4(   ::Type{T},
                 α::Real,
                 F::Real,
                 s::Real,
-                Δt::Real) where {T<:AbstractFloat,Tprog<:AbstractFloat}
+                Δt::Real,
+                output::Bool) where {T<:AbstractFloat,Tprog<:AbstractFloat}
 
     # number of variables
     n = length(X)
 
-    # preallocate for storing results - store without scaling in Float64
-    Xout = Array{Float64,2}(undef,n,N+1)
-    Xout[:,1] = Float64.(X)
+    # preallocate for storing results - store without scaling
+    if output
+        Xout = Array{Tprog,2}(undef,n,N+1)
+        Xout[:,1] = Tprog.(X)
+    end
 
     # Runge Kutta 4th order coefficients including time step and sigma for x
     RKα = [1/6.,1/3.,1/3.,1/6.]*Δt
@@ -20,9 +23,9 @@ function RK4(   ::Type{T},
 
     # convert everything to the desired number system determined by T and scale
     X = Tprog.(X*s)
-    α = T(α)
-    F = T(F*s)
-    s_inv = T(1.0 / s)
+    α = convert(T,α)
+    F = convert(T,F*s)
+    s_inv = convert(T,inv(s))
     RKα = Tprog.(RKα)
     RKβ = Tprog.(RKβ)
 
@@ -34,9 +37,7 @@ function RK4(   ::Type{T},
     dX = zeros(Tprog,size(X))       # tendencies when converted to type Tprog
 
     for i = 1:N
-        @simd for j in 1:n
-            @inbounds X1[j] = X[j]
-        end
+        copyto!(X1,X)
 
         for rki = 1:4
             X1rhs = convert(X1rhs,X1)
@@ -44,26 +45,29 @@ function RK4(   ::Type{T},
             dX = convert(dX,dXrhs)          # change from T to Tprog
 
             if rki < 4
-                @simd for j in 1:n
-                    @inbounds X1[j] = X[j] + dX[j] * RKβ[rki]
+                @inbounds for j in eachindex(X)
+                    X1[j] = X[j] + dX[j] * RKβ[rki]
                 end
             end
 
             # sum the RK steps on the go
-            @simd for j in 1:n
-                @inbounds X0[j] += dX[j] * RKα[rki]
+            @inbounds for j in eachindex(X0)
+                X0[j] += dX[j] * RKα[rki]
             end
         end
 
-        @simd for j in 1:n
-            @inbounds X[j] = X0[j]
-        end
+        copyto!(X,X0)
 
-        # store as 64bit, undo scaling
-        Xout[:,i+1] = Float64.(X)/s
+        if output
+            Xout[:,i+1] = X*s_inv
+        end
     end
 
-    return Xout
+    if output
+        return Xout
+    else
+        return X
+    end
 end
 
 """Convert function for two 1-dim arrays, X1, X2, in case their eltypes differ. Convert every element from X1 and store it in X2."""
@@ -72,7 +76,7 @@ function Base.convert(X2::Array{T2,1},X1::Array{T1,1}) where {T1<:AbstractFloat,
     @boundscheck m == length(X1) || throw(BoundsError())
 
     @inbounds for i in 1:m
-            X2[i] = T2(X1[i])
+            X2[i] = convert(T2,X1[i])
     end
 
     return X2

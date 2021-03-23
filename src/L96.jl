@@ -15,6 +15,7 @@ Integrates the Lorenz1996 model. Standard parameters
     η::Float64=0.01,                    # strength of initial perturbation at X[1] if no X provided
     Δt::Float64=0.01,                   # time step
     scheme::String="RK4"                # time integration scheme
+    output::Bool=false                  # return every time step?
 
 # Examples
 ```jldoc
@@ -29,11 +30,12 @@ function L96(::Type{T},                         # number format for RHS
             n::Int=36,                          # number of variables
             X::Array{Float64,1}=zeros(36),      # initial conditions
             α::Real=1.0,                        # friction parameter
-            F::Real=8.0,                     # forcing constant
-            s::Real=1.0,                     # scaling
-            η::Real=0.01,                    # strength of initial perturbation at X[1] if no X provided
-            Δt::Real=0.01,                   # time step
-            scheme::String="RK4"                # time integration scheme
+            F::Real=8.0,                        # forcing constant
+            s::Real=1.0,                        # scaling
+            η::Real=0.01,                       # strength of initial perturbation at X[1] if no X provided
+            Δt::Real=0.1,                      # time step
+            scheme::String="RK4",               # time integration scheme
+            output::Bool=false                  # return every time step?
             ) where {T<:AbstractFloat,Tprog<:AbstractFloat}
 
             # if both n and X are specified then they should match!
@@ -48,7 +50,7 @@ function L96(::Type{T},                         # number format for RHS
             end
 
             if scheme == "RK4"
-                return RK4(T,Tprog,N,X,α,F,s,Δt)
+                return RK4(T,Tprog,N,X,α,F,s,Δt,output)
             else
                 throw(error("Other schemes than RK4 not implemented yet."))
             end
