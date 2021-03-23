@@ -8,7 +8,7 @@ Lorenz96.jl simulates the [Lorenz 96 system](https://en.wikipedia.org/wiki/Loren
 
 Also supports mixed precision: Different number types can be defined for prognostic variables and calculations on the right-hand side, with automatic conversion on every time step.
 
-# Usage
+## Usage
 ```julia
 using Lorenz96
 X = L96()
@@ -30,14 +30,14 @@ X = L96(Float16,Float32)
 ```
 Here, the prognostic variables are kept at single-precision (Float32), but calculations on the right-hand side are performed in half-precision (Float16).
 
-# Equations
+## Equations
 
 The Lorenz system is scaled with `s` and therefore the prognostic variables are actually  `sX -> X`. The RHS then reads with `s_inv = 1/s`
 ```
 dX_i/dt = (X_i+1 - X_i-2)*X_i-1*s_inv - α*X_i + F
 ```
 
-# Installation
+## Installation
 
 Lorenz96.jl is registered so simply do
 ```julia
