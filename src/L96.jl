@@ -28,12 +28,12 @@ function L96(::Type{T},                         # number format for RHS
             ::Type{Tprog};                      # number format for prognostic variables
             N::Int=10_000,                      # number of time steps
             n::Int=36,                          # number of variables
-            X::Array{Float64,1}=zeros(36),      # initial conditions
+            X::Vector=zeros(36),                # initial conditions
             α::Real=1.0,                        # friction parameter
             F::Real=8.0,                        # forcing constant
             s::Real=1.0,                        # scaling
             η::Real=0.01,                       # strength of initial perturbation at X[1] if no X provided
-            Δt::Real=0.1,                      # time step
+            Δt::Real=0.1,                       # time step
             scheme::String="RK4",               # time integration scheme
             output::Bool=false                  # return every time step?
             ) where {T<:AbstractFloat,Tprog<:AbstractFloat}
