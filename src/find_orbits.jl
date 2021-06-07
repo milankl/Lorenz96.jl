@@ -57,15 +57,15 @@ end
 Lorenz96 and test for their uniqueness."""
 function find_orbits(   ::Type{T},                  # Number format
                         N::Int,                     # number of variables in L96
-                        n::Int=10000) where T       # n initial conditions
+                        n::Int=100) where T         # n initial conditions
 
     # pre-allocate empty array of orbits
     orbits = Orbit[]
 
     # create initial conditions, discard spinup
     spinup = 100
-    ini = L96(Float64,n=N,N=10*n,output=true,η=0.005+0.01*rand())
-    ini = ini[:,unique(rand(spinup:10*n+1,10*n))[1:n]]
+    ini = L96(Float64,n=N,N=10*n+spinup,output=true,η=0.005+0.01*rand())
+    ini = ini[:,unique(rand(spinup:10*n+spinup,10*n))[1:n]]
 
     tic = time()
     orbits = @distributed (reduce_orbits) for i in 1:n            # for n ICs calculate orbit lengths & x
