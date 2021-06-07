@@ -81,7 +81,7 @@ function reduce_orbits(orbits1::Array{Orbit{T},1},orbits2::Array{Orbit{T},1}) wh
     for orbit in orbits1
         orbits2 = reduce_orbits(orbit,orbits2)
     end
-    return y
+    return orbits2
 end
 
 function normalise_basins!(orbits::Array{Orbit{T},1}) where T
