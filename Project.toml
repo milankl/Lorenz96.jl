@@ -3,6 +3,9 @@ uuid = "3fb22c43-5981-45f6-b839-6cbd65dbe502"
 authors = ["Milan Kloewer"]
 version = "0.2.0"
 
+[deps]
+Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+
 [compat]
 julia = "1"
 
