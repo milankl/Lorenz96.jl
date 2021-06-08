@@ -70,7 +70,11 @@ function find_orbits(   ::Type{T},                  # Number format
     tic = time()
     orbits = @distributed (reduce_orbits) for i in 1:n            # for n ICs calculate orbit lengths & x
         X = convert(Vector{T},ini[:,i])
-        orbit_length_minimum(X)    
+        orbit = orbit_length_minimum(X)
+        if n < 100
+            println(orbit)
+        end
+        orbit
     end
 
     # in case n=1 pack into a Vector
