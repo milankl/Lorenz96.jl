@@ -5,7 +5,7 @@ import LinearAlgebra: norm
 Recursive function that starts testing for orbits over period length l,
 but enlarges that testing period if no orbit was found."""
 function orbit_length(  X0::Vector{T},      # initial condition
-                                    l::Int) where T     # max period length
+                        l::Int) where T     # max period length
     
     X = L96(T,X=X0,n=length(X0),N=l-1,output=true)
     Xend = X[:,end]
@@ -26,7 +26,7 @@ function orbit_length(  X0::Vector{T},      # initial condition
     end
 end
 
-"""Returns the minimum x on the orbit of length N, starting from x (which is assumed to be on the orbit."""
+"""Returns the minimum X on the orbit of length l, starting from X0 on the orbit."""
 function orbit_minimum( X0::Vector{T},      # initial condition on the orbit
                         l::Int) where T     # the period length of the orbit
 
@@ -57,15 +57,15 @@ end
 Lorenz96 and test for their uniqueness."""
 function find_orbits(   ::Type{T},                  # Number format
                         N::Int,                     # number of variables in L96
-                        n::Int=10000) where T       # n initial conditions
+                        n::Int=100) where T         # n initial conditions
 
     # pre-allocate empty array of orbits
     orbits = Orbit[]
 
     # create initial conditions, discard spinup
     spinup = 100
-    ini = L96(Float64,n=N,N=10*n,output=true,η=0.005+0.01*rand())
-    ini = ini[:,unique(rand(spinup:10*n+1,10*n))[1:n]]
+    ini = L96(Float64,n=N,N=10*n+spinup,output=true,η=0.005+0.01*rand())
+    ini = ini[:,unique(rand(spinup:10*n+spinup,10*n))[1:n]]
 
     tic = time()
     orbits = @distributed (reduce_orbits) for i in 1:n            # for n ICs calculate orbit lengths & x
@@ -73,7 +73,10 @@ function find_orbits(   ::Type{T},                  # Number format
         orbit_length_minimum(X)    
     end
     
-    sort!(orbits)   # from shortest to longest orbit
+    if length(orbits) > 1
+        sort!(orbits)   # from shortest to longest orbit
+    end
+
     normalise_basins!(orbits)
     
     toc = time()
