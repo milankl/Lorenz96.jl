@@ -13,7 +13,7 @@ function orbit_length(  X0::Vector{T},      # initial condition
     n = 0                           # orbit length (0 = not found yet)
     j = l                           # respective index of X
 
-    while n == 0 && j > 1               # stop when orbit is found (n>0) or when max period is reached
+    @inbounds while n == 0 && j > 1               # stop when orbit is found (n>0) or when max period is reached
         j -= 1                          # walk backwards through the array to minimize spin-up confliction
         n = Xend == X[:,j] ? l-j : 0    # check for periodicity
     end
@@ -35,7 +35,7 @@ function orbit_minimum( X0::Vector{T},      # initial condition on the orbit
     Xnorm = norm(Xmin)
 
     # find the L2-norm minimum by running through X
-    for i in 2:l
+    @inbounds for i in 2:l
         normXi = norm(X[:,i])
         if normXi < Xnorm
             Xmin = X[:,i]
