@@ -1,4 +1,4 @@
-function RK4(   ::Type{T},
+function RKn(   ::Type{T},
                 ::Type{Tprog},
                 N::Int,
                 X::AbstractVector,
@@ -6,7 +6,8 @@ function RK4(   ::Type{T},
                 F::Real,
                 s::Real,
                 Δt::Real,
-                output::Bool) where {T<:AbstractFloat,Tprog<:AbstractFloat}
+                output::Bool;
+                RKo::Int=4) where {T<:AbstractFloat,Tprog<:AbstractFloat}
 
     # number of variables
     n = length(X)
@@ -17,9 +18,18 @@ function RK4(   ::Type{T},
         Xout[:,1] = Tprog.(X)
     end
 
-    # Runge Kutta 4th order coefficients including time step and sigma for x
-    RKα = [1/6.,1/3.,1/3.,1/6.]*Δt
-    RKβ = [1/2.,1/2.,1.]*Δt
+    if RKo == 4     # Runge Kutta 4th order coefficients including time step
+        RKα = [1/6.,1/3.,1/3.,1/6.]*Δt
+        RKβ = [1/2.,1/2.,1.]*Δt
+    elseif RKo == 3
+        RKα = [1/4.,0.,3/4.]*Δt
+        RKβ = [1/3.,2/3.]*Δt
+    elseif RKo == 2
+        RKα = [1/2.,1/2.]*Δt
+        RKβ = [1.]*Δt
+    else
+        throw(error("RKo = $RKo not implemented."))
+    end
 
     # convert everything to the desired number system determined by T and scale
     X = Tprog.(X*s)
@@ -39,12 +49,12 @@ function RK4(   ::Type{T},
     for i = 1:N
         copyto!(X1,X)
 
-        for rki = 1:4
+        for rki = 1:RKo
             X1rhs = convert(X1rhs,X1)
             rhs!(dXrhs,X1rhs,α,F,s_inv)
             dX = convert(dX,dXrhs)          # change from T to Tprog
 
-            if rki < 4
+            if rki < RKo
                 @inbounds for j in eachindex(X)
                     X1[j] = X[j] + dX[j] * RKβ[rki]
                 end
