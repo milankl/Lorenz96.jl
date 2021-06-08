@@ -102,9 +102,9 @@ end
 function Base.show(io::IO, o::Orbit{T}) where T
 
     N = o.N
-    l = @sprintf("%6d",o.length)
-    m = @sprintf("%16s",repr(o.min))
-    b = @sprintf("%22s",repr(o.basin_norm))
+    l = @sprintf("%10d",o.length)
+    m = @sprintf("%s",repr(o.min))
+    b = @sprintf("%s",repr(o.basin_norm))
 
     print(io,"Orbit{$T,N=$N}(length=$l, min=$m, basin=$b)")
 end
