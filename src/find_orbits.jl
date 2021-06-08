@@ -5,7 +5,7 @@ import LinearAlgebra: norm
 Recursive function that starts testing for orbits over period length l,
 but enlarges that testing period if no orbit was found."""
 function orbit_length(  X0::Vector{T},      # initial condition
-                                    l::Int) where T     # max period length
+                        l::Int) where T     # max period length
     
     X = L96(T,X=X0,n=length(X0),N=l-1,output=true)
     Xend = X[:,end]
@@ -26,7 +26,7 @@ function orbit_length(  X0::Vector{T},      # initial condition
     end
 end
 
-"""Returns the minimum x on the orbit of length N, starting from x (which is assumed to be on the orbit."""
+"""Returns the minimum X on the orbit of length l, starting from X0 on the orbit."""
 function orbit_minimum( X0::Vector{T},      # initial condition on the orbit
                         l::Int) where T     # the period length of the orbit
 
@@ -73,7 +73,10 @@ function find_orbits(   ::Type{T},                  # Number format
         orbit_length_minimum(X)    
     end
     
-    sort!(orbits)   # from shortest to longest orbit
+    if length(orbits) > 1
+        sort!(orbits)   # from shortest to longest orbit
+    end
+
     normalise_basins!(orbits)
     
     toc = time()
