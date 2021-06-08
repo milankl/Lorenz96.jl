@@ -72,11 +72,11 @@ function find_orbits(   ::Type{T},                  # Number format
         X = convert(Vector{T},ini[:,i])
         orbit_length_minimum(X)    
     end
-    
-    if length(orbits) > 1
-        sort!(orbits)   # from shortest to longest orbit
-    end
 
+    # in case n=1 pack into a Vector
+    orbits = isa(orbits,Orbit) ? [orbits] : orbits   
+    
+    sort!(orbits)
     normalise_basins!(orbits)
     
     toc = time()
