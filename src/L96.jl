@@ -50,9 +50,13 @@ function L96(::Type{T},                         # number format for RHS
             end
 
             if scheme == "RK4"
-                return RK4(T,Tprog,N,X,α,F,s,Δt,output)
+                return RKn(T,Tprog,N,X,α,F,s,Δt,output,RKo=4)
+            elseif scheme == "RK3"
+                return RKn(T,Tprog,N,X,α,F,s,Δt,output,RKo=3)
+            elseif scheme == "RK2"
+                return RKn(T,Tprog,N,X,α,F,s,Δt,output,RKo=2)
             else
-                throw(error("Other schemes than RK4 not implemented yet."))
+                throw(error("Scheme $scheme not implemented."))
             end
 end
 
