@@ -85,12 +85,21 @@ function reduce_orbits(orbits1::Array{Orbit{T},1},orbits2::Array{Orbit{T},1}) wh
 end
 
 function normalise_basins!(orbits::Array{Orbit{T},1}) where T
-    s = 0
-    for o in orbits
-        s += o.basin
+    
+    s = 0                       # sum of orbits
+    for orbit in orbits
+        if orbit.length > 0     # check that an orbit was actually found
+            s += orbit.basin
+        end
     end
-    for o in orbits
-        o.basin_norm = o.basin/s
+
+    # normalise / set to zero for aborted orbit searches
+    for orbit in orbits
+        if orbit.length > 0
+            orbit.basin_norm = orbit.basin/s
+        else
+            orbit.basin = 0
+        end
     end
 end
      
