@@ -11,7 +11,13 @@ function orbit_length(  X0::Vector{T};          # initial condition
                         nchunkmax::Int=10_000,  # abort after this many chunks
                         ) where T      
     
+    tic = time()
     X0 = L96(T,X=X0,n=length(X0),N=lspinup)
+    toc = time()
+    if verbose
+        time_elapsed = readable_secs(toc-tic)
+        println("Spin-up completed. $lspinup time steps in $time_elapsed.")
+    end
 
     # use several X for testing
     #   1: initial conditions, static
@@ -62,7 +68,11 @@ function orbit_length(  X0::Vector{T};          # initial condition
     end
 
     if verbose
-        println("Orbit of length=$l found after $nchunk chunks of size $lchunk.")
+        if l == 0
+            print("No orbit found after $nchunk chunks of size $lchunk")
+        else
+            println("Orbit of length=$l found after $nchunk chunks of size $lchunk.")
+        end
     end
 
     return l,X0    # return orbit length and an X that's on the orbit
@@ -146,6 +156,8 @@ function find_orbits(   ::Type{T},                  # Number format
     
     toc = time()
     time_elapsed = readable_secs(toc-tic)
-    println("Found $(length(orbits)) orbits in $time_elapsed.")
+    
+    norbits = sum([orbit.length > 0 for orbit in orbits])
+    println("Found $norbits orbits in $time_elapsed.")
     return orbits
 end
