@@ -7,14 +7,14 @@ function RKn(   ::Type{T},
                 s::Real,
                 Δt::Real,
                 output::Bool;
-                RKo::Int=4) where {T<:AbstractFloat,Tprog<:AbstractFloat}
+                RKo::Integer=4) where {T<:AbstractFloat,Tprog<:AbstractFloat}
 
     # number of variables
     n = length(X)
 
     # preallocate for storing results - store without scaling
     if output
-        Xout = Array{Tprog,2}(undef,n,N+1)
+        Xout = Matrix{Tprog}(undef,n,N+1)
         Xout[:,1] = Tprog.(X)
     end
 
@@ -82,10 +82,7 @@ end
 
 """Convert function for two 1-dim arrays, X1, X2, in case their eltypes differ. Convert every element from X1 and store it in X2."""
 function Base.convert(X2::Array{T2,1},X1::Array{T1,1}) where {T1<:AbstractFloat,T2<:AbstractFloat}
-    m = length(X2)
-    @boundscheck m == length(X1) || throw(BoundsError())
-
-    @inbounds for i in 1:m
+    @inbounds for i in eachindex(X1,X2)
             X2[i] = convert(T2,X1[i])
     end
 
@@ -95,7 +92,6 @@ end
 """Convert function for two 1-dim arrays, X1, X2, in case their eltypes are identical.
 Just pass X1, such that X2 is pointed to the same place in memory."""
 function Base.convert(X2::Array{T,1},X1::Array{T,1}) where {T<:AbstractFloat}
-    m = length(X2)
-    @boundscheck m == length(X1) || throw(BoundsError())
+    @boundscheck length(X1) == length(X2) || throw(BoundsError())
     return X1
 end
